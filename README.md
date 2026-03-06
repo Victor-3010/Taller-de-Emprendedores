@@ -1,10 +1,6 @@
 # TECBOOK - Tu Biblioteca Digital
 
-![TECBOOK](https://img.shields.io/badge/version-1.0.0-blue)
-![Licencia](https://img.shields.io/badge/licencia-Dominio%20Público-green)
-![HTML](https://img.shields.io/badge/HTML-5-orange)
-![CSS](https://img.shields.io/badge/CSS-3-blue)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)
+
 
 ##Descripción
 
