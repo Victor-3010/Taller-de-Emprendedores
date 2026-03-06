@@ -1,4 +1,4 @@
-# 📚 TECBOOK - Tu Biblioteca Digital
+# TECBOOK - Tu Biblioteca Digital
 
 ![TECBOOK](https://img.shields.io/badge/version-1.0.0-blue)
 ![Licencia](https://img.shields.io/badge/licencia-Dominio%20Público-green)
