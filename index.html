@@ -5,19 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TECBOOK - Tu biblioteca digital</title>
     <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="perfil.css">
 </head>
 <body>
     <header>
         <nav class="navbar">
             <div class="nav-container">
                 <h1 class="logo">TECBOOK</h1>
-                
                 <div class="nav-menu">
                     <a href="#" onclick="mostrarVista('inicio')" class="active">Inicio</a>
                     <a href="#" onclick="mostrarVista('biblioteca')">Mi biblioteca</a>
                     <a href="#" onclick="mostrarVista('continuar')">Continuar leyendo</a>
+                    <a href="perfil.html">Mi perfil</a>
                 </div>
-                
+                <div id="navAvatar" class="nav-avatar" onclick="window.location='perfil.html'" title="Mi perfil">
+                    <div class="avatar-mini" id="avatarMini">L</div>
+                </div>
                 <div class="nav-search">
                     <input type="text" placeholder="Buscar libros..." id="searchInput">
                 </div>
@@ -29,22 +32,33 @@
         <!-- Vista de Inicio -->
         <div id="vistaInicio" class="vista active">
             <section class="hero">
-                <h2>Tu próxima gran historia te espera</h2>
-                <p>Miles de ebooks disponibles para leer en cualquier momento</p>
+                <div class="hero-eyebrow">✦ Biblioteca digital gratuita</div>
+                <h2>Tu próxima gran<br><em>historia te espera</em></h2>
+                <p>Miles de ebooks de dominio público disponibles para leer en cualquier momento, desde cualquier lugar.</p>
+                <div class="hero-btns">
+                    <button class="btn-hero-primary" onclick="mostrarVista('biblioteca')">Explorar biblioteca</button>
+                    <button class="btn-hero-ghost" onclick="mostrarVista('continuar')">Continuar leyendo</button>
+                </div>
             </section>
 
             <section class="categorias">
-                <h2>Continuar leyendo</h2>
+                <div class="section-header">
+                    <h2 class="section-title">Continuar leyendo</h2>
+                </div>
                 <div class="libros-grid" id="continuarLeyendo"></div>
             </section>
 
             <section class="categorias">
-                <h2>Más populares</h2>
+                <div class="section-header">
+                    <h2 class="section-title">Más populares</h2>
+                </div>
                 <div class="libros-grid" id="librosPopulares"></div>
             </section>
 
             <section class="categorias">
-                <h2>Recomendados para ti</h2>
+                <div class="section-header">
+                    <h2 class="section-title">Recomendados para ti</h2>
+                </div>
                 <div class="libros-grid" id="librosRecomendados"></div>
             </section>
         </div>
@@ -55,17 +69,14 @@
                 <h1>Mi Biblioteca</h1>
                 <p>Todos los libros que has comenzado o completado</p>
             </section>
-
             <section class="categorias">
                 <div class="filtros-biblioteca">
                     <button class="filtro-btn active" onclick="filtrarBiblioteca('todos')">Todos</button>
                     <button class="filtro-btn" onclick="filtrarBiblioteca('leyendo')">Leyendo</button>
                     <button class="filtro-btn" onclick="filtrarBiblioteca('completados')">Completados</button>
                 </div>
-                
                 <div class="libros-grid" id="bibliotecaLibros"></div>
             </section>
-
             <section class="estadisticas">
                 <h2>Tus estadísticas</h2>
                 <div class="stats-grid">
@@ -89,13 +100,12 @@
             </section>
         </div>
 
-        <!-- Vista de Continuar Leyendo -->
+        <!-- Vista Continuar Leyendo -->
         <div id="vistaContinuar" class="vista">
             <section class="vista-header">
                 <h1>Continuar leyendo</h1>
                 <p>Retoma tus lecturas donde las dejaste</p>
             </section>
-
             <section class="categorias">
                 <div class="ordenar-opciones">
                     <label>Ordenar por:</label>
@@ -105,10 +115,8 @@
                         <option value="alfabetico">Alfabético</option>
                     </select>
                 </div>
-
                 <div class="lista-continuar" id="listaContinuar"></div>
             </section>
-
             <section class="sugerencias">
                 <h2>Mientras tanto...</h2>
                 <p>Basado en tus lecturas</p>
@@ -117,18 +125,15 @@
         </div>
     </main>
 
-    <!-- Modal del lector - VERSIÓN SIMPLIFICADA (SIN MARCADOR NI COMPARTIR) -->
+    <!-- Modal Lector -->
     <div id="lectorModal" class="modal">
         <div class="modal-contenido-lector">
-            <!-- Barra superior del lector -->
             <div class="lector-header">
                 <div class="lector-header-left">
-                    <button class="btn-icono" onclick="cerrarLector()">
-                        <span class="icono">←</span>
-                    </button>
+                    <button class="btn-icono" onclick="cerrarLector()">←</button>
                     <div class="libro-info-mini">
-                        <h2 id="libroTitulo" class="libro-titulo-mini">Romeo y Julieta</h2>
-                        <p id="libroAutor" class="libro-autor-mini">William Shakespeare</p>
+                        <h2 id="libroTitulo" class="libro-titulo-mini">Título</h2>
+                        <p id="libroAutor" class="libro-autor-mini">Autor</p>
                     </div>
                 </div>
                 <div class="lector-header-right">
@@ -137,60 +142,54 @@
                         <button class="tema-btn" onclick="cambiarTema('oscuro')" title="Modo oscuro">🌙</button>
                         <button class="tema-btn" onclick="cambiarTema('sepia')" title="Modo sepia">📜</button>
                     </div>
-                    <button class="btn-icono" onclick="cerrarLector()">
-                        <span class="icono">✕</span>
-                    </button>
+                    <button class="btn-icono" onclick="cerrarLector()">✕</button>
                 </div>
             </div>
-
-            <!-- Barra de progreso elegante -->
             <div class="progreso-container">
                 <div class="progreso-info">
-                    <span class="progreso-texto" id="progresoTexto">8% completado</span>
-                    <span class="pagina-actual" id="infoPagina">Página 1 de 12</span>
+                    <span id="progresoTexto">0% completado</span>
+                    <span id="infoPagina">Página 1 de 1</span>
                 </div>
                 <div class="progreso-barra-elegante">
-                    <div class="progreso-llenado" id="progresoLectura" style="width: 8%"></div>
+                    <div class="progreso-llenado" id="progresoLectura" style="width:0%"></div>
                 </div>
             </div>
-
-            <!-- Área de lectura principal -->
             <div class="lector-main">
-                <div class="pagina-contenido" id="paginaContenido">
-                    <!-- El contenido se carga aquí -->
-                </div>
+                <div class="pagina-contenido" id="paginaContenido"></div>
             </div>
-
-            <!-- Controles de navegación simplificados -->
             <div class="lector-footer-simple">
                 <button class="btn-nav" onclick="cambiarPagina(-1)" id="btnAnterior">
                     <span class="icono-grande">←</span>
                     <span class="texto-nav">Anterior</span>
                 </button>
-                
                 <div class="nav-paginas-simple">
-                    <span id="infoPaginaSimple">Página 1 de 12</span>
+                    <span id="infoPaginaSimple">Página 1 de 1</span>
                 </div>
-                
                 <button class="btn-nav" onclick="cambiarPagina(1)" id="btnSiguiente">
                     <span class="texto-nav">Siguiente</span>
                     <span class="icono-grande">→</span>
                 </button>
             </div>
-
-            <!-- Solo ajuste de letra (sin marcador ni compartir) -->
             <div class="lector-opciones-simple">
-                <button class="opcion-btn" onclick="ajustarLetra('menos')" title="Disminuir letra">
-                    <span class="opcion-icono">A-</span>
-                </button>
+                <button class="opcion-btn" onclick="ajustarLetra('menos')">A-</button>
                 <span class="letra-indicador" id="tamanioIndicador">A</span>
-                <button class="opcion-btn" onclick="ajustarLetra('mas')" title="Aumentar letra">
-                    <span class="opcion-icono">A+</span>
-                </button>
+                <button class="opcion-btn" onclick="ajustarLetra('mas')">A+</button>
             </div>
         </div>
     </div>
 
     <script src="script.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const perfil = JSON.parse(localStorage.getItem("perfilTecbook") || "{}");
+        const miniEl = document.getElementById("avatarMini");
+        if (!miniEl) return;
+        if (perfil.foto) {
+            miniEl.innerHTML = '<img src="' + perfil.foto + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+        } else {
+            miniEl.textContent = (perfil.nombre || "L").charAt(0).toUpperCase();
+        }
+    });
+    </script>
 </body>
 </html>
