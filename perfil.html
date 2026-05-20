@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil — TECBOOK</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="perfil.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <h1 class="logo" onclick="window.location='index.html'" style="cursor:pointer">TECBOOK</h1>
+                <div class="nav-menu">
+                    <a href="index.html">Inicio</a>
+                    <a href="index.html">Mi biblioteca</a>
+                    <a href="index.html">Continuar leyendo</a>
+                    <a href="perfil.html" class="active">Mi perfil</a>
+                </div>
+                <div class="nav-avatar" onclick="window.location='perfil.html'" title="Mi perfil">
+                    <div class="avatar-mini" id="avatarMini">L</div>
+                </div>
+                <div class="nav-search">
+                    <input type="text" placeholder="Buscar libros..." id="searchInput" onclick="window.location='index.html'">
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main style="margin-top: 64px;">
+
+        <!-- HERO DEL PERFIL -->
+        <div class="perfil-hero">
+            <div class="perfil-hero-bg"></div>
+            <div class="perfil-hero-content">
+
+                <!-- Avatar -->
+                <div class="avatar-wrap">
+                    <div class="avatar-grande" id="avatarGrande">
+                        <span id="avatarLetra">L</span>
+                        <img id="avatarImg" src="" alt="avatar" style="display:none; width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <label class="avatar-edit-btn" title="Cambiar foto" for="inputFoto">📷</label>
+                    <input type="file" id="inputFoto" accept="image/*" style="display:none" onchange="cambiarFoto(event)">
+                </div>
+
+                <!-- Nombre y bio -->
+                <div class="perfil-nombre-wrap">
+                    <!-- Display del nombre -->
+                    <div id="nombreDisplay">
+                        <div class="perfil-nombre" onclick="editarNombre()">
+                            <span id="nombreTexto">Lector anónimo</span>
+                            <span class="edit-hint">✏️</span>
+                        </div>
+                    </div>
+                    <!-- Editor del nombre -->
+                    <div id="nombreEdit" style="display:none">
+                        <div class="perfil-nombre-edit">
+                            <input type="text" id="inputNombre" placeholder="Tu nombre..." maxlength="40">
+                            <button class="btn-guardar-nombre" onclick="guardarNombre()">Guardar</button>
+                            <button class="btn-cancelar-nombre" onclick="cancelarNombre()">✕</button>
+                        </div>
+                    </div>
+                    <p class="perfil-bio" id="bioTexto">Amante de los libros 📖</p>
+                </div>
+            </div>
+
+            <!-- Stats bar -->
+            <div class="perfil-stats-bar">
+                <div class="pstat">
+                    <div class="pstat-val" id="pTotalLibros">0</div>
+                    <div class="pstat-label">Libros</div>
+                </div>
+                <div class="pstat-divider"></div>
+                <div class="pstat">
+                    <div class="pstat-val" id="pEnProgreso">0</div>
+                    <div class="pstat-label">Leyendo</div>
+                </div>
+                <div class="pstat-divider"></div>
+                <div class="pstat">
+                    <div class="pstat-val" id="pCompletados">0</div>
+                    <div class="pstat-label">Completados</div>
+                </div>
+                <div class="pstat-divider"></div>
+                <div class="pstat">
+                    <div class="pstat-val" id="pPromedio">0%</div>
+                    <div class="pstat-label">Promedio</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CUERPO DEL PERFIL -->
+        <div class="perfil-body">
+
+            <!-- Bio -->
+            <div class="perfil-card">
+                <div class="perfil-card-title">📝 Sobre mí</div>
+                <textarea class="bio-input" id="inputBio" placeholder="Cuéntanos algo sobre ti como lector..." maxlength="120" oninput="actualizarContadorBio()"></textarea>
+                <div class="bio-footer">
+                    <span class="bio-count" id="bioCount">0/120</span>
+                    <button class="btn-guardar-bio" onclick="guardarBio()">Guardar bio</button>
+                </div>
+            </div>
+
+            <!-- Géneros favoritos -->
+            <div class="perfil-card">
+                <div class="perfil-card-title">🎭 Géneros favoritos</div>
+                <div class="generos-grid">
+                    <button class="genero-tag" onclick="toggleGenero(this)">Clásico</button>
+                    <button class="genero-tag" onclick="toggleGenero(this)">Romance</button>
+                    <button class="genero-tag" onclick="toggleGenero(this)">Aventura</button>
+                    <button class="genero-tag" onclick="toggleGenero(this)">Terror</button>
+                    <button class="genero-tag" onclick="toggleGenero(this)">Fábula</button>
+                    <button class="genero-tag" onclick="toggleGenero(this)">Teatro</button>
+                    <button class="genero-tag" onclick="toggleGenero(this)">Épica</button>
+                    <button class="genero-tag" onclick="toggleGenero(this)">Realismo mágico</button>
+                    <button class="genero-tag" onclick="toggleGenero(this)">Ciencia ficción</button>
+                    <button class="genero-tag" onclick="toggleGenero(this)">Misterio</button>
+                    <button class="genero-tag" onclick="toggleGenero(this)">Filosofía</button>
+                    <button class="genero-tag" onclick="toggleGenero(this)">Historia</button>
+                </div>
+            </div>
+
+            <!-- Actividad reciente -->
+            <div class="perfil-card">
+                <div class="perfil-card-title">📚 Actividad reciente</div>
+                <div class="actividad-lista" id="actividadReciente">
+                    <p style="color:var(--gris); font-size:0.85rem;">Aún no has leído ningún libro.</p>
+                </div>
+            </div>
+
+            <!-- Progreso visual -->
+            <div class="perfil-card">
+                <div class="perfil-card-title">📊 Mi progreso</div>
+                <div id="progresoLibros" style="display:flex; flex-direction:column; gap:12px;">
+                    <p style="color:var(--gris); font-size:0.85rem;">Sin libros en progreso aún.</p>
+                </div>
+            </div>
+
+            <!-- Ajustes -->
+            <div class="perfil-card perfil-card-danger">
+                <div class="perfil-card-title">⚙️ Ajustes</div>
+                <div class="ajustes-row">
+                    <div>
+                        <p style="font-size:0.88rem; color:var(--blanco); margin-bottom:4px;">Restablecer progreso de lectura</p>
+                        <p style="font-size:0.78rem; color:var(--gris);">Borra todo el historial de páginas leídas. No se puede deshacer.</p>
+                    </div>
+                    <button class="btn-reset" onclick="confirmarReset()">Resetear</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="perfil.js"></script>
+    <script>
+        // Cargar avatar en navbar
+        document.addEventListener('DOMContentLoaded', () => {
+            const perfil = JSON.parse(localStorage.getItem('perfilTecbook') || '{}');
+            const miniEl = document.getElementById('avatarMini');
+            if (miniEl) {
+                if (perfil.foto) {
+                    miniEl.innerHTML = `<img src="${perfil.foto}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+                } else {
+                    miniEl.textContent = (perfil.nombre || 'L').charAt(0).toUpperCase();
+                }
+            }
+            cargarProgresoVisual();
+        });
+
+        // Progreso visual de todos los libros
+        function cargarProgresoVisual() {
+            const progreso = JSON.parse(localStorage.getItem('progresoLectura') || '{}');
+            const contenedor = document.getElementById('progresoLibros');
+            if (!contenedor) return;
+
+            const entradas = Object.entries(progreso);
+            if (entradas.length === 0) {
+                contenedor.innerHTML = '<p style="color:var(--gris); font-size:0.85rem;">Sin libros en progreso aún.</p>';
+                return;
+            }
+
+            const todosLosLibros = typeof librosLocales !== 'undefined' ? librosLocales : [];
+
+            contenedor.innerHTML = entradas.map(([id, datos]) => {
+                const libro = todosLosLibros.find(l => String(l.id) === String(id));
+                if (!libro) return '';
+                const pct = Math.round((datos.pagina / datos.totalPaginas) * 100);
+                const completado = datos.completado;
+                return `
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <img src="${libro.imagen}" alt="${libro.titulo}"
+                             style="width:32px;height:44px;object-fit:cover;border-radius:4px;flex-shrink:0;"
+                             onerror="this.src='https://via.placeholder.com/32x44/1a1a24/666?text=📖'">
+                        <div style="flex:1; min-width:0;">
+                            <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                                <span style="font-size:0.83rem;font-weight:500;color:var(--blanco);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;">${libro.titulo}</span>
+                                <span style="font-size:0.78rem;color:${completado ? '#22c55e' : 'var(--violeta-3)'};font-weight:600;flex-shrink:0;margin-left:8px;">${completado ? '✓ Completado' : pct + '%'}</span>
+                            </div>
+                            <div style="height:4px;background:var(--negro-4);border-radius:4px;overflow:hidden;">
+                                <div style="height:100%;width:${pct}%;background:${completado ? 'linear-gradient(90deg,#16a34a,#22c55e)' : 'linear-gradient(90deg,var(--violeta),var(--violeta-3))'};border-radius:4px;transition:width 0.3s;"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).filter(Boolean).join('');
+        }
+    </script>
+
+</body>
+</html>
