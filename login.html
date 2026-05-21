@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión — TECBOOK</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --negro: #0a0a0f;
+            --negro-2: #111118;
+            --negro-3: #1a1a24;
+            --negro-4: #22222f;
+            --violeta: #7c3aed;
+            --violeta-2: #8b5cf6;
+            --violeta-3: #a78bfa;
+            --violeta-cl: rgba(124,58,237,0.15);
+            --oro: #f59e0b;
+            --blanco: #f8f6ff;
+            --gris: #9090a8;
+            --gris-2: #5a5a72;
+            --borde: rgba(255,255,255,0.06);
+            --borde-2: rgba(124,58,237,0.25);
+            --error: #ef4444;
+            --exito: #22c55e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--negro);
+            color: var(--blanco);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Fondo animado */
+        .bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: -20%;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(124,58,237,0.2), transparent 60%);
+            animation: float1 8s ease-in-out infinite;
+        }
+
+        .bg::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(245,158,11,0.1), transparent 60%);
+            animation: float2 10s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, 20px); }
+        }
+
+        /* Contenedor principal */
+        .login-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 440px;
+            padding: 1rem;
+        }
+
+        /* Logo */
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #a78bfa, #7c3aed, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        .login-logo p {
+            color: var(--gris);
+            font-size: 0.88rem;
+            margin-top: 4px;
+            font-weight: 300;
+        }
+
+        /* Card */
+        .login-card {
+            background: var(--negro-2);
+            border: 1px solid var(--borde);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: var(--negro-3);
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 1.8rem;
+            gap: 4px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 9px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--gris);
+            font-size: 0.88rem;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: var(--violeta);
+            color: white;
+            box-shadow: 0 4px 14px rgba(124,58,237,0.35);
+        }
+
+        /* Formularios */
+        .form { display: none; }
+        .form.active { display: block; }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.82rem;
+            color: var(--gris);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--negro-3);
+            border: 1px solid var(--borde);
+            color: var(--blanco);
+            padding: 11px 14px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--violeta);
+            box-shadow: 0 0 0 3px rgba(124,58,237,0.12);
+            background: var(--negro-4);
+        }
+
+        .form-input::placeholder { color: var(--gris-2); }
+
+        .form-input.error { border-color: var(--error); }
+
+        /* Botón principal */
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, var(--violeta), var(--violeta-2));
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(124,58,237,0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 1.2rem 0;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--borde);
+        }
+
+        .divider span {
+            font-size: 0.78rem;
+            color: var(--gris-2);
+        }
+
+        /* Botón Google */
+        .btn-google {
+            width: 100%;
+            background: white;
+            color: #333;
+            border: none;
+            padding: 11px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-google:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-google svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        /* Mensaje de error/éxito */
+        .mensaje {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.83rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .mensaje.error {
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: #fca5a5;
+            display: block;
+        }
+
+        .mensaje.exito {
+            background: rgba(34,197,94,0.1);
+            border: 1px solid rgba(34,197,94,0.3);
+            color: #86efac;
+            display: block;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Olvidé mi contraseña */
+        .forgot {
+            text-align: right;
+            margin-top: 4px;
+        }
+
+        .forgot a {
+            font-size: 0.78rem;
+            color: var(--violeta-3);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .forgot a:hover { opacity: 0.8; }
+
+        /* Footer */
+        .login-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.78rem;
+            color: var(--gris-2);
+        }
+
+        .login-footer a {
+            color: var(--violeta-3);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .login-card { padding: 1.5rem; }
+            .login-logo h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg"></div>
+
+    <div class="login-container">
+
+        <!-- Logo -->
+        <div class="login-logo">
+            <h1>TECBOOK</h1>
+            <p>Tu biblioteca digital gratuita</p>
+        </div>
+
+        <!-- Card -->
+        <div class="login-card">
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="cambiarTab('login')">Iniciar sesión</button>
+                <button class="tab" onclick="cambiarTab('registro')">Crear cuenta</button>
+            </div>
+
+            <!-- Form Login -->
+            <div class="form active" id="formLogin">
+                <div class="form-group">
+                    <label class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-input" id="loginEmail" placeholder="tu@correo.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" class="form-input" id="loginPassword" placeholder="••••••••">
+                    <div class="forgot"><a onclick="olvidoPassword()">¿Olvidaste tu contraseña?</a></div>
+                </div>
+                <button class="btn-primary" id="btnLogin" onclick="loginEmail()">Iniciar sesión</button>
+                <div class="divider"><span>o continúa con</span></div>
+                <button class="btn-google" onclick="loginGoogle()">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    Continuar con Google
+                </button>
+                <div class="mensaje" id="mensajeLogin"></div>
+            </div>
+
+            <!-- Form Registro -->
+            <div class="form" id="formRegistro">
+                <div class="form-group">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-input" id="registroNombre" placeholder="Tu nombre">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-input" id="registroEmail" placeholder="tu@correo.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" class="form-input" id="registroPassword" placeholder="Mínimo 6 caracteres">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirmar contraseña</label>
+                    <input type="password" class="form-input" id="registroConfirm" placeholder="Repite tu contraseña">
+                </div>
+                <button class="btn-primary" id="btnRegistro" onclick="registrarUsuario()">Crear cuenta</button>
+                <div class="divider"><span>o continúa con</span></div>
+                <button class="btn-google" onclick="loginGoogle()">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    Registrarse con Google
+                </button>
+                <div class="mensaje" id="mensajeRegistro"></div>
+            </div>
+
+        </div>
+
+        <div class="login-footer">
+            Al continuar aceptas nuestros <a>Términos de uso</a>
+        </div>
+
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC4u31oZgWl_ZiDDBB1QUWtwqQu_1PgDNw",
+            authDomain: "alejandria-92fb1.firebaseapp.com",
+            projectId: "alejandria-92fb1",
+            storageBucket: "alejandria-92fb1.firebasestorage.app",
+            messagingSenderId: "97524811218",
+            appId: "1:97524811218:web:7f2a561fd61f891816365c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // Si ya está logueado, redirigir al inicio
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.location.href = 'index.html';
+            }
+        });
+
+        // ── Cambiar tab ──────────────────────────────
+        window.cambiarTab = function(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.form').forEach(f => f.classList.remove('active'));
+            document.getElementById(`form${tab.charAt(0).toUpperCase() + tab.slice(1)}`).classList.add('active');
+            event.target.classList.add('active');
+        };
+
+        // ── Login con Email ──────────────────────────
+        window.loginEmail = async function() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('btnLogin');
+            const msg = document.getElementById('mensajeLogin');
+
+            if (!email || !password) {
+                mostrarMensaje(msg, 'error', 'Por favor llena todos los campos.');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Iniciando sesión...';
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                mostrarMensaje(msg, 'exito', '¡Bienvenido de vuelta! Redirigiendo...');
+                setTimeout(() => window.location.href = 'index.html', 1000);
+            } catch (err) {
+                btn.disabled = false;
+                btn.innerHTML = 'Iniciar sesión';
+                mostrarMensaje(msg, 'error', traducirError(err.code));
+            }
+        };
+
+        // ── Registro con Email ───────────────────────
+        window.registrarUsuario = async function() {
+            const nombre = document.getElementById('registroNombre').value.trim();
+            const email = document.getElementById('registroEmail').value.trim();
+            const password = document.getElementById('registroPassword').value;
+            const confirm = document.getElementById('registroConfirm').value;
+            const btn = document.getElementById('btnRegistro');
+            const msg = document.getElementById('mensajeRegistro');
+
+            if (!nombre || !email || !password || !confirm) {
+                mostrarMensaje(msg, 'error', 'Por favor llena todos los campos.');
+                return;
+            }
+
+            if (password !== confirm) {
+                mostrarMensaje(msg, 'error', 'Las contraseñas no coinciden.');
+                return;
+            }
+
+            if (password.length < 6) {
+                mostrarMensaje(msg, 'error', 'La contraseña debe tener al menos 6 caracteres.');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Creando cuenta...';
+
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, email, password);
+                await updateProfile(cred.user, { displayName: nombre });
+                localStorage.setItem('perfilTecbook', JSON.stringify({ nombre }));
+                mostrarMensaje(msg, 'exito', '¡Cuenta creada! Redirigiendo...');
+                setTimeout(() => window.location.href = 'index.html', 1000);
+            } catch (err) {
+                btn.disabled = false;
+                btn.innerHTML = 'Crear cuenta';
+                mostrarMensaje(msg, 'error', traducirError(err.code));
+            }
+        };
+
+        // ── Login con Google ─────────────────────────
+        window.loginGoogle = async function() {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+                const perfilActual = JSON.parse(localStorage.getItem('perfilTecbook') || '{}');
+                localStorage.setItem('perfilTecbook', JSON.stringify({
+                    ...perfilActual,
+                    nombre: user.displayName || perfilActual.nombre || 'Lector',
+                    foto: user.photoURL || perfilActual.foto || ''
+                }));
+                window.location.href = 'index.html';
+            } catch (err) {
+                console.error(err);
+                const msg = document.getElementById('mensajeLogin') || document.getElementById('mensajeRegistro');
+                mostrarMensaje(msg, 'error', 'Error al iniciar con Google. Intenta de nuevo.');
+            }
+        };
+
+        // ── Olvidé contraseña ────────────────────────
+        window.olvidoPassword = async function() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const msg = document.getElementById('mensajeLogin');
+
+            if (!email) {
+                mostrarMensaje(msg, 'error', 'Escribe tu correo arriba primero.');
+                return;
+            }
+
+            try {
+                await sendPasswordResetEmail(auth, email);
+                mostrarMensaje(msg, 'exito', '¡Correo enviado! Revisa tu bandeja de entrada.');
+            } catch (err) {
+                mostrarMensaje(msg, 'error', traducirError(err.code));
+            }
+        };
+
+        // ── Helpers ──────────────────────────────────
+        function mostrarMensaje(el, tipo, texto) {
+            el.className = `mensaje ${tipo}`;
+            el.textContent = texto;
+        }
+
+        function traducirError(code) {
+            const errores = {
+                'auth/user-not-found': 'No existe una cuenta con ese correo.',
+                'auth/wrong-password': 'Contraseña incorrecta.',
+                'auth/email-already-in-use': 'Ese correo ya está registrado.',
+                'auth/invalid-email': 'El correo no es válido.',
+                'auth/weak-password': 'La contraseña es muy débil.',
+                'auth/too-many-requests': 'Demasiados intentos. Espera un momento.',
+                'auth/popup-closed-by-user': 'Cerraste la ventana de Google.',
+                'auth/invalid-credential': 'Correo o contraseña incorrectos.',
+            };
+            return errores[code] || 'Ocurrió un error. Intenta de nuevo.';
+        }
+
+        // Enter para enviar
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const formLogin = document.getElementById('formLogin');
+                if (formLogin.classList.contains('active')) {
+                    window.loginEmail();
+                } else {
+                    window.registrarUsuario();
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
