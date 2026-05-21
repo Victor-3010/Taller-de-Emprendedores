@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesión — TECBOOK</title>
+    <title>Iniciar sesión — Alejandría</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -351,7 +351,7 @@
 
         <!-- Logo -->
         <div class="login-logo">
-            <h1>TECBOOK</h1>
+            <h1>Alejandría</h1>
             <p>Tu biblioteca digital gratuita</p>
         </div>
 
@@ -518,7 +518,7 @@
             try {
                 const cred = await createUserWithEmailAndPassword(auth, email, password);
                 await updateProfile(cred.user, { displayName: nombre });
-                localStorage.setItem('perfilTecbook', JSON.stringify({ nombre }));
+                localStorage.setItem('perfilAlejandría', JSON.stringify({ nombre }));
                 mostrarMensaje(msg, 'exito', '¡Cuenta creada! Redirigiendo...');
                 setTimeout(() => window.location.href = 'index.html', 1000);
             } catch (err) {
@@ -533,8 +533,8 @@
             try {
                 const result = await signInWithPopup(auth, provider);
                 const user = result.user;
-                const perfilActual = JSON.parse(localStorage.getItem('perfilTecbook') || '{}');
-                localStorage.setItem('perfilTecbook', JSON.stringify({
+                const perfilActual = JSON.parse(localStorage.getItem('perfilAlejandría') || '{}');
+                localStorage.setItem('perfilAlejandría', JSON.stringify({
                     ...perfilActual,
                     nombre: user.displayName || perfilActual.nombre || 'Lector',
                     foto: user.photoURL || perfilActual.foto || ''

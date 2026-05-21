@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TECBOOK - Tu biblioteca digital</title>
+    <title>Alejandría - Tu biblioteca digital</title>
     <link rel="stylesheet" href="estilos.css">
     <link rel="stylesheet" href="perfil.css">
 </head>
@@ -11,7 +11,7 @@
     <header>
         <nav class="navbar">
             <div class="nav-container">
-                <h1 class="logo">TECBOOK</h1>
+                <h1 class="logo">Alejandría</h1>
                 <div class="nav-menu">
                     <a href="#" onclick="mostrarVista('inicio')" class="active">Inicio</a>
                     <a href="#" onclick="mostrarVista('biblioteca')">Mi biblioteca</a>
@@ -181,7 +181,7 @@
     <script src="script.js"></script>
     <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const perfil = JSON.parse(localStorage.getItem("perfilTecbook") || "{}");
+        const perfil = JSON.parse(localStorage.getItem("perfilAlejandría") || "{}");
         const miniEl = document.getElementById("avatarMini");
         if (!miniEl) return;
         if (perfil.foto) {

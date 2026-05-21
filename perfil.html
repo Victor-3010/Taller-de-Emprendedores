@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Perfil — TECBOOK</title>
+    <title>Mi Perfil — Alejandría</title>
     <link rel="stylesheet" href="estilos.css">
     <link rel="stylesheet" href="perfil.css">
 </head>
@@ -13,7 +13,7 @@
     <header>
         <nav class="navbar">
             <div class="nav-container">
-                <h1 class="logo" onclick="window.location='index.html'" style="cursor:pointer">TECBOOK</h1>
+                <h1 class="logo" onclick="window.location='index.html'" style="cursor:pointer">Alejandría</h1>
                 <div class="nav-menu">
                     <a href="index.html">Inicio</a>
                     <a href="index.html">Mi biblioteca</a>
@@ -160,7 +160,7 @@
     <script>
         // Cargar avatar en navbar
         document.addEventListener('DOMContentLoaded', () => {
-            const perfil = JSON.parse(localStorage.getItem('perfilTecbook') || '{}');
+            const perfil = JSON.parse(localStorage.getItem('perfilAlejandría') || '{}');
             const miniEl = document.getElementById('avatarMini');
             if (miniEl) {
                 if (perfil.foto) {
