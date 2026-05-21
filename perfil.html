@@ -19,8 +19,7 @@
                     <a href="index.html">Mi biblioteca</a>
                     <a href="index.html">Continuar leyendo</a>
                     <a href="perfil.html" class="active">Mi perfil</a>
-<a href="#" onclick="cerrarSesion()" style="color:#ef4444;">Cerrar sesión</a>
-
+                    <a href="#" onclick="cerrarSesion()" style="color:#ef4444;">Cerrar sesión</a>
                 </div>
                 <div class="nav-avatar" onclick="window.location='perfil.html'" title="Mi perfil">
                     <div class="avatar-mini" id="avatarMini">L</div>
@@ -51,14 +50,12 @@
 
                 <!-- Nombre y bio -->
                 <div class="perfil-nombre-wrap">
-                    <!-- Display del nombre -->
                     <div id="nombreDisplay">
                         <div class="perfil-nombre" onclick="editarNombre()">
                             <span id="nombreTexto">Lector anónimo</span>
                             <span class="edit-hint">✏️</span>
                         </div>
                     </div>
-                    <!-- Editor del nombre -->
                     <div id="nombreEdit" style="display:none">
                         <div class="perfil-nombre-edit">
                             <input type="text" id="inputNombre" placeholder="Tu nombre..." maxlength="40">
@@ -159,30 +156,33 @@
 
     <script src="script.js"></script>
     <script src="perfil.js"></script>
+
+    <!-- Firebase: cerrar sesión -->
     <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-    const app = initializeApp({
-        apiKey: "AIzaSyC4u31oZgWl_ZiDDBB1QUWtwqQu_1PgDNw",
-        authDomain: "alejandria-92fb1.firebaseapp.com",
-        projectId: "alejandria-92fb1",
-        storageBucket: "alejandria-92fb1.firebasestorage.app",
-        messagingSenderId: "97524811218",
-        appId: "1:97524811218:web:a3b9d628e3297bf40f740b"
-    });
+        const app = initializeApp({
+            apiKey: "AIzaSyC4u31oZgWl_ZiDDBB1QUWtwqQu_1PgDNw",
+            authDomain: "alejandria-92fb1.firebaseapp.com",
+            projectId: "alejandria-92fb1",
+            storageBucket: "alejandria-92fb1.firebasestorage.app",
+            messagingSenderId: "97524811218",
+            appId: "1:97524811218:web:a3b9d628e3297bf40f740b"
+        });
 
-    const auth = getAuth(app);
+        const auth = getAuth(app);
 
-    window.cerrarSesion = async function() {
-        await signOut(auth);
-        window.location.href = 'login.html';
-    };
-</script>
+        window.cerrarSesion = async function() {
+            await signOut(auth);
+            window.location.href = 'login.html';
+        };
+    </script>
+
+    <!-- Avatar y progreso -->
     <script>
-        // Cargar avatar en navbar
         document.addEventListener('DOMContentLoaded', () => {
-            const perfil = JSON.parse(localStorage.getItem('perfilAlejandría') || '{}');
+            const perfil = JSON.parse(localStorage.getItem('perfilAlejandria') || '{}');
             const miniEl = document.getElementById('avatarMini');
             if (miniEl) {
                 if (perfil.foto) {
@@ -194,7 +194,6 @@
             cargarProgresoVisual();
         });
 
-        // Progreso visual de todos los libros
         function cargarProgresoVisual() {
             const progreso = JSON.parse(localStorage.getItem('progresoLectura') || '{}');
             const contenedor = document.getElementById('progresoLibros');
